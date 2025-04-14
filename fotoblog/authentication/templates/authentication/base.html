@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8">
         <title>Fotoblog</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    
     </head>
 
     <body>
@@ -13,6 +13,14 @@
         <h1>Fotoblog</h1>
         
         {% block content %}{% endblock content %}
+
+        {% if user.is_authenticated %}
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <button type="submit">Se déconnecter</button>
+        </form>
+        <p> Vous voulez changer de mot de passe ? <a href="{% url 'password_change' %}">Changer de mot de passe</a></p>
+        {% endif %}
 
     </body>
 
