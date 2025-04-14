@@ -1,4 +1,4 @@
-{% extends 'authentication/base.html' %}
+{% extends 'base.html' %}
 
 {% block content%}
 
@@ -9,5 +9,5 @@
         
         <button type="submit">Se connecter</button>
     </form>
-
+    <p>Pas encore membre ? <a href="{% url 'signup' %}">Inscrivez-vous maintenant !</a></p>
 {%endblock content%}

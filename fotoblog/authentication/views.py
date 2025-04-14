@@ -5,6 +5,11 @@ from django.views.generic import View
 
 from authentication.forms import LoginForm
 from authentication.forms import ChangePasswordForm
+from authentication.forms import SignupForm
+
+
+from django.contrib.auth import login
+from django.conf import settings
 
 from . import forms
 # Create your views here.
@@ -60,3 +65,14 @@ class PasswordChangeDoneView():
 
     def get(self, request):
         return render(request, 'authentication/password_change_done.html')
+    
+
+def signup_page(request):
+    form = forms.SignupForm()
+    if request.method == 'POST':
+        form = forms.SignupForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect(settings.LOGIN_REDIRECT_URL)
+    return render (request, 'authentication/signup.html', context={'form': form})
