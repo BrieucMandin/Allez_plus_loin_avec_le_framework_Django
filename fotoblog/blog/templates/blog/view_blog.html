@@ -1,0 +1,10 @@
+<!-- # blog/templates/blog/view_blog.html -->
+
+
+{% extends 'base.html' %}
+{% block content %}
+    <h2>{{ blog.title }}</h2>
+    <img src="{{ blog.photo.image.url }}">
+    <p>{{ blog.photo.caption }}</p>
+    <p>{{ blog.content }}</p>
+{% endblock content %}
