@@ -4,6 +4,7 @@ from PIL import Image
 
 # Create your models here.
 
+
 class Photo(models.Model):
     image = models.ImageField()
     caption = models.CharField(max_length=128, blank=True)
@@ -11,7 +12,7 @@ class Photo(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
 
     IMAGE_MAX_SIZE = (800, 800)
-
+    
     def resize_image(self):
         image = Image.open(self.image)
         image.thumbnail(self.IMAGE_MAX_SIZE)
@@ -30,3 +31,13 @@ class Blog(models.Model):
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     starred = models.BooleanField(default=False)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    contributors = models.ManyToManyField(settings.AUTH_USER_MODEL, through='BlogContributor', related_name='contributions')
+
+class BlogContributor(models.Model):
+    contributor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE)
+    contribution = models.CharField(max_length=255, blank=True)
+    
+    class Meta:
+        unique_together = ('contributor', 'blog')
